@@ -82,7 +82,8 @@ public class Server implements Runnable {
 						}
 					}
 					else {
-						MessageUtils.sendMessage(socket, "Mensaje recibido pero no procesado por el servidor: " + msgRecivedFromClient + "\n");
+						//MessageUtils.sendMessage(socket, "Mensaje recibido pero no procesado por el servidor: " + msgRecivedFromClient + "\n");
+						MessageUtils.sendMessage(socket, "201\n");
 					}
 					
 				}

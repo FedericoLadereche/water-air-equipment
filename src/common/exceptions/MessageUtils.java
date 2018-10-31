@@ -28,12 +28,12 @@ public class MessageUtils {
 	
 	private static String checkValidMessageFormat(String msgRecivedFromClient) throws MessageFormatError {
 		String msgRecivedContainer[] = msgRecivedFromClient.split(" ");
-		if(!msgRecivedContainer[0].equalsIgnoreCase("#") || msgRecivedContainer.length == 1)
-			throw new MessageFormatError("El formato del mensaje recibido es inválido y no ha podido procesarse");
+//		if(!msgRecivedContainer[0].equalsIgnoreCase("#") || msgRecivedContainer.length == 1)
+//			throw new MessageFormatError("El formato del mensaje recibido es inválido y no ha podido procesarse");
 		return msgRecivedFromClient;
 	}
 	
 	public static boolean validateClientMessage(String message) {
-		return message.contains("#") ? true : false;
+		return message.contains("#");
 	}
 }
