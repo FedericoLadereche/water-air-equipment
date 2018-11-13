@@ -33,7 +33,12 @@ public class MessageUtils {
 		return msgRecivedFromClient;
 	}
 	
-	public static boolean validateClientMessage(String message) {
+	public static boolean classifyClientMessage(String message) {
 		return message.contains("#");
 	}
+
+//	public static boolean validateSeguraSatellitalMessage(String msgRecivedFromClient) {
+//		return false;
+//	}
+	
 }
