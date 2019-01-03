@@ -138,7 +138,9 @@ public class Server implements Runnable {
 		if (socket != null)
 			try {
 				socket.close();
+				System.out.println("Cliente desconectado del servidor");
 			} catch (IOException ignore) {
+				System.out.println("Cliente desconectado del servidor");
 			}
 	}
 

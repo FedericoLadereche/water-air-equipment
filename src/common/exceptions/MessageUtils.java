@@ -20,10 +20,14 @@ public class MessageUtils {
 	}
 
 	public static String getMessage(Socket socket) throws IOException, MessageFormatError {
-		String msgRecivedFromClient = null;
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-		
-		return checkValidMessageFormat(msgRecivedFromClient = bufferedReader.readLine());
+		try {
+			String msgRecivedFromClient = null;
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			
+			return checkValidMessageFormat(msgRecivedFromClient = bufferedReader.readLine());
+		}catch (Exception e) {
+			return null;
+		}
 	}
 	
 	private static String checkValidMessageFormat(String msgRecivedFromClient) throws MessageFormatError {
