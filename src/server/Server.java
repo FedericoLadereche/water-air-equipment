@@ -8,6 +8,7 @@ import java.net.URISyntaxException;
 
 import org.apache.http.client.ClientProtocolException;
 
+import common.JSONChecker;
 import common.JSONConverter;
 import common.JSONSender;
 import common.MessageFormatError;
@@ -71,23 +72,62 @@ public class Server implements Runnable {
 				while ((msgRecivedFromClient = MessageUtils.getMessage(socket))!= null) {
 					System.out.printf("Servidor - Mensaje entrante: %s\n", msgRecivedFromClient);
 					Thread.sleep(1000);
-					System.out.println("Servidor - Procesando mensaje recibido...\n");
-					if(MessageUtils.validateClientMessage(msgRecivedFromClient)) {
-						String sondeDataJSON = JSONConverter.createJSONFromObject(msgRecivedFromClient);
-						System.out.printf("Servidor - JSON generado: %s\n", sondeDataJSON);
-						if (JSONSender.sendJSONData(sondeDataJSON)) {
-							System.out.printf("Servidor - Enviando respuesta al cliente: %s\n", msgRecivedFromClient);
-							MessageUtils.sendMessage(socket, "Mensaje procesado: " + msgRecivedFromClient + "\n");
-							System.out.printf("Servidor - Mensaje enviado\n");
-						}
+					System.out.println("Servidor - Procesando mensaje recibido...");
+					if(MessageUtils.classifyClientMessage(msgRecivedFromClient)) {
+						processYSImessage(socket, msgRecivedFromClient);
 					}
 					else {
-						MessageUtils.sendMessage(socket, "Mensaje recibido pero no procesado por el servidor: " + msgRecivedFromClient + "\n");
+						processSeguraSatelitalMessage(socket, msgRecivedFromClient);
 					}
 					
 				}
 				closeIgnoringException(socket);
 			}
+
+
+			private void processYSImessage(final Socket socket, String msgRecivedFromClient)
+					throws ClientProtocolException, IOException, URISyntaxException {
+				String sondeDataJSON = JSONConverter.createJSONSondeDataFromObject(msgRecivedFromClient);
+				System.out.printf("Servidor - JSON generado: %s\n", sondeDataJSON);
+				if (JSONSender.sendJSONData(sondeDataJSON)) {
+					System.out.printf("Servidor - Enviando respuesta al cliente: %s\n", msgRecivedFromClient);
+					MessageUtils.sendMessage(socket, "Mensaje procesado: " + msgRecivedFromClient + "\n");
+					System.out.printf("Servidor - Mensaje enviado\n");
+				}
+			}
+			
+			private void processSeguraSatelitalMessage(Socket socket, String msgRecivedFromClient) {
+				if(JSONChecker.isJSONValid(msgRecivedFromClient)) {
+					String seguraSateliteDataJSON = JSONConverter.createJSONSeguraSatelitalDataFromObject(msgRecivedFromClient);
+					System.out.printf("Servidor - JSON generado: %s\n", seguraSateliteDataJSON);
+						try {
+							if (JSONSender.sendJSONData(seguraSateliteDataJSON)) {
+								System.out.printf("Servidor - Enviando respuesta exitosa al cliente\n");
+								MessageUtils.sendMessage(socket, "201");
+								System.out.printf("\n");
+								System.out.printf("\n");
+								System.out.printf("\n");
+								System.out.printf("\n");
+							}
+						} catch (ClientProtocolException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (URISyntaxException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+				} else
+					try {
+						MessageUtils.sendMessage(socket, "406\n" + "Formato de JSON inválido: " + msgRecivedFromClient);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+			}
+			
+			
 		};
 
 		Thread clientConnection = new Thread(clientHandler);
@@ -98,7 +138,9 @@ public class Server implements Runnable {
 		if (socket != null)
 			try {
 				socket.close();
+				System.out.println("Cliente desconectado del servidor");
 			} catch (IOException ignore) {
+				System.out.println("Cliente desconectado del servidor");
 			}
 	}
 

@@ -1,27 +1,16 @@
 package beans;
-import java.lang.reflect.Array;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.omg.CosNaming.NamingContextExtPackage.StringNameHelper;
+public class SondeDataJSONObject extends JSONObject{
 
-public class SondeDataJSONObject {
-	
-	private String id_contrato;
-	private String datetime;
-	private ArrayList data;
-	
-	public SondeDataJSONObject(String idContrato, Date dateTime, SondeData sondeData) {
-		
-		this.id_contrato = idContrato;
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		this.datetime = dateFormat.format(dateTime);
-		fillDataFromSondeData(sondeData);
+	public SondeDataJSONObject(String idContrato, Date dateTime, Object data) {
+		super(idContrato, dateTime, data);
 	}
-
-	private void fillDataFromSondeData(SondeData sondeData) {
+	
+	protected void fillDataFromSondeData(Object data) {
+		SondeData sondeData = (SondeData)data;
 		
 		this.data = new ArrayList();
 		ArrayList valueFieldBattery = new ArrayList<>();
@@ -52,16 +41,6 @@ public class SondeDataJSONObject {
 		
 		this.data.add(valueFieldPressure);
 		
-	}
-	
-	public String getId_Contrato() {
-		return id_contrato;
-	}
-	public String getDatetime() {
-		return datetime;
-	}
-	public ArrayList<String> getData() {
-		return data;
 	}
 	
 }
