@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class SondeDataJSONObject extends JSONObject{
 
-	public SondeDataJSONObject(String idContrato, Date dateTime, Object data) {
+	public SondeDataJSONObject(String idContrato, String dateTime, Object data) {
 		super(idContrato, dateTime, data);
 	}
 	

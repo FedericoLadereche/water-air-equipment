@@ -11,12 +11,12 @@ public abstract class JSONObject {
 	protected ArrayList data;
 	
 	
-	public JSONObject(String idContrato, Date dateTime, Object data) {
+	public JSONObject(String idContrato, String dateTime, Object data) {
 		
 		this.id_contrato = idContrato;
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		this.datetime = dateFormat.format(dateTime);
-		fillDataFromSondeData(data);
+//		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		this.datetime = dateTime;
+//		fillDataFromSondeData(data);
 	}
 
 	protected abstract void fillDataFromSondeData(Object data);

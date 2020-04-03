@@ -1,5 +1,6 @@
 package common;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -54,9 +55,9 @@ public class JSONConverter {
 	}
 
 	private static SondeDataJSONObject createJSONContractObject(SondeData sondeData) {
-		Date date = new Date();
+//		Date date = new Date();
 		
-		return new SondeDataJSONObject("496", date, sondeData);
+		return new SondeDataJSONObject("496", "", sondeData);
 	}
 	
 	public static String createJSONSeguraSatelitalDataFromObject(String msgRecivedFromClient) {
@@ -86,6 +87,7 @@ public class JSONConverter {
 		String fecha = "";
 		String motivo = "";
 		String canal = "";
+		String dato = "";
 		
 		String json = msgRecivedFromClient;
 		JsonParser parser = new JsonParser();
@@ -105,22 +107,30 @@ public class JSONConverter {
 				break;
 			case "MOTIVO":
 				motivo = entry.getValue().toString();
-				break;
+				break;	
 			case "CANAL":
 				canal = entry.getValue().toString();
+				break;
+			case "DATO":
+				dato = entry.getValue().toString();
 				break;
 			default:
 				break;			
 			}
 		}
 		
-		return new SeguraSatelitalData(norden, estacion, fecha, motivo, canal);
+		return new SeguraSatelitalData(norden, estacion, fecha, motivo, canal, dato);
 	}
 
 	private static SeguraSatelitalJSONObject createSeguraSatelitalJSONContractObject(SeguraSatelitalData seguraData) {
-		Date date = new Date();
+		try {
+			return new SeguraSatelitalJSONObject("?","?",seguraData);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		
-		return new SeguraSatelitalJSONObject("496", date, seguraData);
 	}
 
 }
