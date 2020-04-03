@@ -12,7 +12,7 @@ import org.apache.http.client.ClientProtocolException;
 
 public class JSONSender {
 	
-	private static String url = "http://172.20.10.70/recepcion_datos/index.php/recepcion/recepcion_directa";
+	private static String url = "https://ws.dinama.gub.uy/recepcion_datos/index.php/recepcion/recepcion_directa";
 	
 	public static boolean sendJSONData(String json) throws ClientProtocolException, IOException, URISyntaxException {
 		System.out.println("Servidor - Creando web service y enviando ");

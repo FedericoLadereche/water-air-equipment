@@ -6,15 +6,21 @@ public class SeguraSatelitalData {
 	private String fecha;
 	private String motivo;
 	private String canal;
+	private String dato;
 	
-	public SeguraSatelitalData(String norden, String estacion, String fecha, String motivo, String canal) {
+	public SeguraSatelitalData(String norden, String estacion, String fecha, String motivo, String canal, String dato) {
 		this.norden = norden;
 		this.estacion = estacion;
 		this.fecha = fecha;
 		this.motivo = motivo;
 		this.canal = canal;
+		this.dato = dato;
 	}
-	
+
+	public void setDato(String dato) {
+		this.dato = dato;
+	}
+
 	public String getNorden() {
 		return norden;
 	}
@@ -33,6 +39,10 @@ public class SeguraSatelitalData {
 
 	public String getCanal() {
 		return canal;
+	}
+	
+	public String getDato() {
+		return dato;
 	}
 
 }
